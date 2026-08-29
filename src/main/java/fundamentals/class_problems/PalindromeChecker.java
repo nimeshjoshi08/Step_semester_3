@@ -1,21 +1,7 @@
 package fundamentals.class_problems;
 
-/**
- * Problem 2: Palindrome Checker (3 Approaches)
- *
- * Implements and compares three independent palindrome detection algorithms:
- * 1. Iterative two-pointer comparison
- * 2. Recursive divide-and-conquer comparison
- * 3. Character array reversal and comparison
- */
 public class PalindromeChecker {
 
-    /**
-     * Approach 1: Iterative check comparing characters from both ends moving inward.
-     *
-     * @param text The input string to check
-     * @return true if text is a palindrome, false otherwise
-     */
     public static boolean isPalindromeIterative(String text) {
         if (text == null) return false;
         int left = 0;
@@ -30,71 +16,51 @@ public class PalindromeChecker {
         return true;
     }
 
-    /**
-     * Approach 2: Recursive check comparing first and last characters.
-     *
-     * @param text The input string to check
-     * @return true if text is a palindrome, false otherwise
-     */
     public static boolean isPalindromeRecursive(String text) {
         if (text == null) return false;
-        return isPalindromeRecursiveHelper(text, 0, text.length() - 1);
+        return checkRecursive(text, 0, text.length() - 1);
     }
 
-    private static boolean isPalindromeRecursiveHelper(String text, int start, int end) {
+    private static boolean checkRecursive(String text, int start, int end) {
         if (start >= end) {
             return true;
         }
         if (text.charAt(start) != text.charAt(end)) {
             return false;
         }
-        return isPalindromeRecursiveHelper(text, start + 1, end - 1);
+        return checkRecursive(text, start + 1, end - 1);
     }
 
-    /**
-     * Approach 3: Array-reversal check converting string to char array, reversing it, and comparing.
-     *
-     * @param text The input string to check
-     * @return true if text is a palindrome, false otherwise
-     */
     public static boolean isPalindromeArrayReversal(String text) {
         if (text == null) return false;
-        char[] original = text.toCharArray();
-        char[] reversed = new char[original.length];
-        for (int i = 0; i < original.length; i++) {
-            reversed[i] = original[original.length - 1 - i];
+        char[] arr = text.toCharArray();
+        char[] rev = new char[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            rev[i] = arr[arr.length - 1 - i];
         }
-        for (int i = 0; i < original.length; i++) {
-            if (original[i] != reversed[i]) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != rev[i]) {
                 return false;
             }
         }
         return true;
     }
 
-    /**
-     * Utility method to format the 3-way check result string.
-     */
-    public static String evaluateAllApproaches(String text) {
-        boolean iterative = isPalindromeIterative(text);
-        boolean recursive = isPalindromeRecursive(text);
-        boolean arrayReversal = isPalindromeArrayReversal(text);
+    public static void checkAndPrint(String text) {
+        String iter = isPalindromeIterative(text) ? "Palindrome" : "Not Palindrome";
+        String rec = isPalindromeRecursive(text) ? "Palindrome" : "Not Palindrome";
+        String rev = isPalindromeArrayReversal(text) ? "Palindrome" : "Not Palindrome";
 
-        String iterStr = iterative ? "Palindrome" : "Not Palindrome";
-        String recStr = recursive ? "Palindrome" : "Not Palindrome";
-        String arrStr = arrayReversal ? "Palindrome" : "Not Palindrome";
-
-        return String.format("Iterative: %s | Recursive: %s | Array Reversal: %s", iterStr, recStr, arrStr);
+        System.out.println("Iterative: " + iter + " | Recursive: " + rec + " | Array Reversal: " + rev);
     }
 
     public static void main(String[] args) {
-        System.out.println("=== Palindrome Checker (3 Approaches) ===");
+        String test1 = "madam";
+        System.out.println("Input: \"" + test1 + "\"");
+        checkAndPrint(test1);
 
-        String[] testCases = {"madam", "hello", "racecar", "step", "noon", "radar"};
-        for (String test : testCases) {
-            System.out.printf("Input: \"%s\"%n", test);
-            System.out.println("Output: " + evaluateAllApproaches(test));
-            System.out.println();
-        }
+        String test2 = "hello";
+        System.out.println("\nInput: \"" + test2 + "\"");
+        checkAndPrint(test2);
     }
 }
